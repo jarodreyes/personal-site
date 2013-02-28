@@ -1,0 +1,10 @@
+@font-face {
+    font-family: 'FontIcons';
+    src:
+        url('icon-font/fonticons-webfont.eot?#iefix') format('embedded-opentype')
+        url('icon-font/fonticons-webfont.woff') format('woff'),
+        url('icon-font/fonticons-webfont.ttf') format('truetype'),
+        url('icon-font/fonticons-webfont.svg#fonticonswebfont') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}

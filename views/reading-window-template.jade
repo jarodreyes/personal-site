@@ -1,0 +1,14 @@
+.reading-templates.hidden
+	script#books-template(type="text/template")
+		li.book-preview
+			img(src!="<%= image_url %>")
+			a.title(href!="<%= object.book.link %>") <%= object.book.title %>
+			small.author <%= object.book.authors.author.name %>
+
+	script#reading-template(type="text/template")
+		.icon-reading
+		.window
+			.book-list
+		h2.name Reading
+		
+          

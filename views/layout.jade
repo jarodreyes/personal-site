@@ -1,0 +1,23 @@
+!!!5
+html
+  head
+    title #{title} - Jarod Reyes
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    script(src="/scripts/jquery-1.9.1.min.js")
+    script(src="/scripts/underscore.js")
+    script(data-main="/scripts/main", src="/scripts/require.js")
+    script(src="/scripts/backbone.js")
+    script(src="/scripts/backbone.marionette.min.js")
+
+  body
+    .header-main
+      .nav.green
+        li: a(href="#") Jarod Reyes
+        li: a(href="#") Hacker
+        li: a(href="#") Developer
+    .header-tricks
+      .logo-bg
+        img.logo(src="/img/logo.png")
+    .container
+      .main-content
+        block content
