@@ -3,8 +3,9 @@ var __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
 define(['jquery.xml2json'], function(xml) {
-  var BookView, BooksCollectionView, GoodReadsData, MainRouter, READING_TEMPLATES, ReadingWindow;
+  var BookView, BooksCollectionView, GoodReadsData, HEADER_PADDING, MainPage, MainRouter, READING_TEMPLATES, ReadingWindow, WindowView;
   READING_TEMPLATES = $('.reading-templates');
+  HEADER_PADDING = 45;
   MainRouter = (function(_super) {
 
     __extends(MainRouter, _super);
@@ -14,11 +15,13 @@ define(['jquery.xml2json'], function(xml) {
     }
 
     MainRouter.prototype.routes = {
-      'bio/': 'showBio'
+      'bio/': 'showBio',
+      'hacker/': 'showHacker'
     };
 
     MainRouter.prototype.initialize = function() {
-      this.layout = new ReadingWindow;
+      this.mainPage = new MainPage;
+      this.reading = new ReadingWindow;
       return console.log('yay');
     };
 
@@ -29,6 +32,72 @@ define(['jquery.xml2json'], function(xml) {
     return MainRouter;
 
   })(Backbone.Router);
+  MainPage = (function(_super) {
+
+    __extends(MainPage, _super);
+
+    function MainPage() {
+      return MainPage.__super__.constructor.apply(this, arguments);
+    }
+
+    MainPage.prototype.el = 'body';
+
+    MainPage.prototype.initialize = function() {
+      _.bindAll(this, 'detectScroll');
+      return this.detectScroll();
+    };
+
+    MainPage.prototype.detectScroll = function(event) {
+      var $hackerHeader, hackerTop,
+        _this = this;
+      this.headerH = $('.header-main').outerHeight();
+      $hackerHeader = $('.header-hacker');
+      hackerTop = $hackerHeader.offset().top - (this.headerH - HEADER_PADDING);
+      return $(window).scroll(function(event) {
+        var hackerMovement, top;
+        top = $(window).scrollTop();
+        hackerMovement = $('.header-hacker').offset().top;
+        console.log(top, hackerTop, _this.headerH);
+        if (top >= hackerTop) {
+          $('.header-offset').removeClass('absolute');
+          $hackerHeader.addClass('fixed');
+          $('.nav').addClass('fixed orange');
+          return $('.logo').addClass('fixed');
+        } else {
+          $('.header-offset').addClass('absolute');
+          $hackerHeader.removeClass('fixed');
+          $('.nav').removeClass('fixed orange');
+          return $('.logo').removeClass('fixed');
+        }
+      });
+    };
+
+    return MainPage;
+
+  })(Backbone.Marionette.Layout);
+  WindowView = (function(_super) {
+
+    __extends(WindowView, _super);
+
+    function WindowView() {
+      return WindowView.__super__.constructor.apply(this, arguments);
+    }
+
+    WindowView.prototype.events = {
+      'click': 'toggleWindow'
+    };
+
+    WindowView.prototype.initialize = function() {
+      return this.render();
+    };
+
+    WindowView.prototype.toggleWindow = function(event) {
+      return (this.$('.window')).toggleClass('open');
+    };
+
+    return WindowView;
+
+  })(Backbone.Marionette.Layout);
   ReadingWindow = (function(_super) {
 
     __extends(ReadingWindow, _super);
@@ -43,25 +112,21 @@ define(['jquery.xml2json'], function(xml) {
 
     ReadingWindow.prototype.el = '.reading';
 
-    ReadingWindow.prototype.url = 'http://www.goodreads.com/user/show/5406984.xml?key=Nkya34MwrAyEZ7cnbMzqA';
-
-    ReadingWindow.prototype.events = {
-      'click': 'openWindow'
-    };
+    ReadingWindow.prototype.url = 'http://www.goodreads.com/review/list/5406984.xml?key=Nkya34MwrAyEZ7cnbMzqA&v=2&shelf=read';
 
     ReadingWindow.prototype.regions = {
       books: '.book-list'
     };
 
     ReadingWindow.prototype.initialize = function() {
-      this.expanded = false;
       this.getReadingData();
-      return this.render();
+      return ReadingWindow.__super__.initialize.apply(this, arguments);
     };
 
-    ReadingWindow.prototype.openWindow = function(event) {
-      (this.$('window')).addClass('opened');
-      return this.books.show(this.booksCollectionView);
+    ReadingWindow.prototype.toggleWindow = function(event) {
+      this.books.show(this.booksCollectionView);
+      (this.$('small')).toggleClass('invisible');
+      return ReadingWindow.__super__.toggleWindow.apply(this, arguments);
     };
 
     ReadingWindow.prototype.getReadingData = function() {
@@ -69,17 +134,21 @@ define(['jquery.xml2json'], function(xml) {
       return $.get(this.url, function(xml) {
         var data;
         data = $.xml2json(xml);
-        _this.model = new Backbone.Model(data.user);
+        _this.model = new Backbone.Model(data.reviews);
         return _this.prepareData();
       });
     };
 
     ReadingWindow.prototype.prepareData = function() {
-      var link, updates;
-      link = this.model.get('link');
-      updates = (this.model.get('updates')).update;
-      this.bookList = new Backbone.Collection(updates);
-      console.log(this.bookList);
+      var image, review, reviews, _i, _len;
+      reviews = this.model.get('review');
+      for (_i = 0, _len = reviews.length; _i < _len; _i++) {
+        review = reviews[_i];
+        image = review.book.image_url;
+        image = image.replace(/m\/(?=\d)/g, 'l/');
+        review.book.image_url = image;
+      }
+      this.bookList = new Backbone.Collection(reviews);
       return this.renderBooks();
     };
 
@@ -91,7 +160,7 @@ define(['jquery.xml2json'], function(xml) {
 
     return ReadingWindow;
 
-  })(Backbone.Marionette.Layout);
+  })(WindowView);
   BookView = (function(_super) {
 
     __extends(BookView, _super);

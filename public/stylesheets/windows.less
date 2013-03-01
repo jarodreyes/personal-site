@@ -11,6 +11,7 @@
 .tap-window {
     text-align:center;
     margin-bottom:20px;
+    position:relative;
     .window {
         &:hover {
             height:10px;
@@ -20,10 +21,75 @@
         }
         .transition(all linear 0.1s);
         height:1px;
+        padding:0px 20px;
         cursor:pointer;
+        overflow:hidden;
         border-top:1px solid @grayLighter;
         border-bottom:2px solid white;
-        background:@gray;
+        background:url("../img/burlap.gif") transparent;
         margin:6px 0px 14px;
+        &.open {
+            height:300px;
+            padding:20px;
+            .box-shadow(inset 0px 0px 10px #222);
+            &:hover {
+                -webkit-animation-name:none;
+            }
+        }
+    }
+}
+.tap-window.reading {
+    .window, .window.open {padding:0px;}
+    .window.open { height:320px;}
+    .details {
+        z-index:300;
+        position:absolute;
+        bottom:0px;
+        background:white;
+        border-top:1px solid @grayLight;
+        .box-shadow(inset 0px -3px 6px rgba(0,0,0,0.2));
+        left: 0px;
+        padding: 20px;
+        a.title {
+            font-family:@fontHeader;
+            text-decoration:none;
+            color:@aquaLight;
+            font-size:18px;
+            display:block;
+        }
+        .author {
+            color:@gray;
+            margin:5px 0px 10px;
+        }
+    }
+    small {
+        position: absolute;
+        text-align: center;
+        top: 56px;
+        color:@grayLighter;
+        text-shadow:0px 1px 0px white;
+        width: 100%;
+        left: 0px;
+        z-index:3;
+        text-transform: uppercase;
+        .transition(all linear 0.3s);
+    }
+    img {
+        .box-shadow(0px 0px 6px #333);
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        z-index: 2;
+        width: 253px;
+        z-index:1;
+    }
+    li.book-preview {
+        height:320px;
+        width:100%;
+        position:relative;
+        display:inline-block;
+        .box-sizing(border-box);
+        float:left;
+        padding:20px;
     }
 }
