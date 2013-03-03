@@ -25,31 +25,21 @@ block content
         .col-1-3
           .bio-interests
             .tap-window.reading.closed
-            .tap-window.watching.closed
-              .icon-watching
+            .tap-window.listening.closed
+              .icon-music
               .window
-              h2.name Watching
-            .tap-window.seeing.closed
-              .icon-seeing
-              .window
-              h2.name Seeing
+              h2.name Listening
+            //- .tap-window.seeing.closed
+            //-   .icon-seeing
+            //-   .window
+            //-   h2.name Seeing
 
         .col-1-3
-          .tweet-feed
-            h2.aqua Recent Tweets
-            .block.tweet
-              |Tweet message here. Something really clever that isn't too revealing. #goodnews
-              .date-time Feb. 25, 2013
-              .clear
-            .block.tweet
-              |Tweet message here. Something really clever that isn't too revealing. #goodnews
-              .date-time Feb. 25, 2013
-              .clear
-            .block.tweet
-              |Tweet message here. Something really clever that isn't too revealing. #goodnews
-              .date-time Feb. 25, 2013
-              .clear
+          .tweets
+            
+
   include hacker
   include reading-window-template
+  include tweet-template
 
         

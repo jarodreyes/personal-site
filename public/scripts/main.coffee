@@ -1,5 +1,5 @@
-define ['jquery.xml2json'], 
-(xml) ->
+define ['reading-window'], 
+(ReadingWindow) ->
     READING_TEMPLATES = $ '.reading-templates'
     HEADER_PADDING = 45
 
@@ -18,7 +18,23 @@ define ['jquery.xml2json'],
 
     class MainPage extends Backbone.Marionette.Layout
         el: 'body'
+
+        regions:
+            'tweets': '.tweets'
+            
+
         initialize: ->
+            debugger
+            @getTweets = new Tweets
+            @getTweets.fetch
+                success: =>
+                    console.log "fetched"
+                    @twitterFeed = new TweetCollection
+                        collection: @getTweets
+                    @tweets.show @twitterFeed
+                error: (msg) =>
+                    console.log "error: "+msg
+
             _.bindAll @, 'detectScroll'
             @detectScroll()
 
@@ -40,69 +56,18 @@ define ['jquery.xml2json'],
                     $hackerHeader.removeClass('fixed')
                     $('.nav').removeClass('fixed orange')
                     $('.logo').removeClass('fixed')
-                    
 
-    class WindowView extends Backbone.Marionette.Layout
-        events: 
-            'click' : 'toggleWindow'
+    class TweetView extends Backbone.Marionette.ItemView
+        template: _.template $('#tweet-template').html()
 
-        initialize: ->
-            @render()
+    class TweetCollection extends Backbone.Marionette.CollectionView
+        itemView: TweetView
+        itemViewOptions:
+            className: 'tweet block'
 
-        toggleWindow: (event) ->
-            (@$ '.window').toggleClass 'open'
-
-
-    class ReadingWindow extends WindowView
-        className:'reading-window'
-        template: _.template $('#reading-template').html()
-        el: '.reading'
-        url: 'http://www.goodreads.com/review/list/5406984.xml?key=Nkya34MwrAyEZ7cnbMzqA&v=2&shelf=read'
-        # secret: vJEOgLqaHHBf8J1lZxgHYwZ0TszZSJDNfQnULnKmLIQ
-
-        regions:
-            books: '.book-list'
-
-        initialize: ->
-            @getReadingData()
-            super
-
-        toggleWindow: (event) ->
-            @books.show @booksCollectionView
-            (@$ 'small').toggleClass 'invisible'
-            super
-
-        getReadingData: () ->
-            $.get @url, (xml) =>
-                data = $.xml2json(xml)
-                @model = new Backbone.Model data.reviews
-                @prepareData()
-
-        prepareData: () ->
-            reviews = @model.get 'review'
-            for review in reviews
-                image = review.book.image_url
-                image = image.replace /m\/(?=\d)/g, 'l/'
-                review.book.image_url = image
-            @bookList = new Backbone.Collection reviews
-            @renderBooks()
-
-        renderBooks: ->
-            @booksCollectionView = new BooksCollectionView
-                collection: @bookList
-
-    class BookView extends Backbone.Marionette.ItemView
-        template: _.template $('#books-template').html()
-
-    class BooksCollectionView extends Backbone.Marionette.CollectionView
-        itemView: BookView
-
-    class GoodReadsData extends Backbone.Model
-        url: 'http://www.goodreads.com/user/show/5406984.xml?key=Nkya34MwrAyEZ7cnbMzqA'
-
-        fetch: (data) ->
-            results = $.xml2json(data.results)
-            return results
+    class Tweets extends Backbone.Collection
+        url: "https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=jreyesdesign&count=4"
+    
 
     return new MainRouter
 
