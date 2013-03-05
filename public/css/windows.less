@@ -14,6 +14,7 @@
     position:relative;
     cursor:pointer;
     .window {
+        position:relative;
         &:hover {
             height:10px;
             -webkit-animation-name: bounce;
@@ -28,6 +29,9 @@
         border-bottom:2px solid white;
         background:url("../img/burlap.gif") transparent;
         margin:6px 0px 14px;
+        .card {
+            .card-width(3);
+        }
         &.open {
             height:300px;
             padding:20px;
@@ -36,9 +40,49 @@
                 -webkit-animation-name:none;
             }
         }
+        &.scrollable {
+            overflow:scroll;
+        }
+        .inner-scroll {
+            width:8000%;
+            margin-left:0px;
+            .transition(all ease-in-out 0.3s);
+        }
+        h2 {color:@grayLighter;}
+        a.prev, a.next {
+            position:absolute;
+            .transition(all linear 0.3s);
+            top:20%;
+            color:white;
+            right: -10px;
+            z-index: 1090;
+            .icon-chevron-right, .icon-chevron-left {
+                color:white;
+                .opacity(50);
+                &:hover {
+                    .opacity(100);
+                }
+            }
+        }
+        a.prev {
+            left:-10px;
+            right:auto;
+        }
+    }
+    .credit {
+        position: absolute;
+        text-align: center;
+        top: 56px;
+        color:@grayLighter;
+        text-shadow:0px 1px 0px white;
+        width: 100%;
+        left: 0px;
+        z-index:3;
+        text-transform: uppercase;
+        .transition(all linear 0.3s);
     }
 }
-.tap-window.reading {
+.reading, .listening {
     .window, .window.open {padding:0px;}
     .window.open { height:320px;}
     .details {
@@ -50,6 +94,7 @@
         .box-shadow(inset 0px -3px 6px rgba(0,0,0,0.2));
         left: 0px;
         padding: 20px;
+        width:100%;
         a.title {
             font-family:@fontHeader;
             text-decoration:none;
@@ -62,28 +107,13 @@
             margin:5px 0px 10px;
         }
     }
-    small {
-        position: absolute;
-        text-align: center;
-        top: 56px;
-        color:@grayLighter;
-        text-shadow:0px 1px 0px white;
-        width: 100%;
-        left: 0px;
-        z-index:3;
-        text-transform: uppercase;
-        .transition(all linear 0.3s);
-    }
     img {
         .box-shadow(0px 0px 6px #333);
-        position: absolute;
-        top: 20px;
-        left: 20px;
-        z-index: 2;
-        width: 253px;
+        width: 170px;
         z-index:1;
+        margin: 0px auto;
     }
-    li.book-preview {
+    li.book-preview, li.song-preview {
         height:320px;
         width:100%;
         position:relative;
@@ -91,5 +121,24 @@
         .box-sizing(border-box);
         float:left;
         padding:20px;
+    }
+}
+.git-commits {
+    .box-shadow(0px 0px 5px rgba(0,0,0,0.8));
+    li.commit {
+        padding:3px 10px;
+        background:@grayLight;
+        color:@grayDark;
+        padding: 3px 10px;
+        border-bottom: 1px solid #ddd;
+        border-top: 1px solid #fff;
+        list-style: none;
+        text-align: left;
+        font-size: 85%;
+        .date-time {
+            font-size:67%;
+            color:@gray;
+            text-align: right;
+        }
     }
 }

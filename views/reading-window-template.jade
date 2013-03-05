@@ -1,16 +1,67 @@
 .reading-templates.hidden
-	script#books-template(type="text/template")
-		li.book-preview
-			img(src!="<%= book.image_url %>")
-			.details
-				a.title(href!="<%= book.link %>") <%= book.title %>
-				.author <%= book.authors.author.name %>
+    script#books-template(type="text/template")
+        img(src!="<%= book.image_url %>")
+        .details
+            a.title(href!="<%= book.link %>") <%= book.title %>
+            .author <%= book.authors.author.name %>
 
-	script#reading-template(type="text/template")
-		.icon-review-book
-		small.invisible Courtesy of GoodReads.com api
-		.window
-			.book-list
-		h2.name Reading
-		
+    script#reading-template(type="text/template")
+        .icon-review-book
+        small.credit.invisible Courtesy of GoodReads.com api
+        .window
+            .book-list.scroll
+        h2.name Reading
+
+    script#scroll-controls(type="text/template")
+        a.next(href="#")
+            i.icon-chevron-right
+        a.prev(href="#")
+            i.icon-chevron-left
+
+    script#hacking-template(type="text/template")
+        .icon-commits
+        .window
+            .hack-slides.scroll
+                li.hack-preview
+                    h2.orange Joysti.cc
+                    img(src="/img/joysticc-phone.png")
+                li.hack-preview
+                    span
+                        dt Hackathon:
+                        dd TechCrunch Disrupt 2011
+                    span
+                        dt Prizes:
+                        dd 4th Place - Awarded by Bradley Horowitz
+                    dt Description:
+                    dd A human remote controller. The vision: to have two computers play chess against eachother using human pieces. (Coming soon...) It allows one iPhone user to control another iPhone user through a simple app that gives vocal commands.
+                    a(href="#") Demo Video
+
+        h2.name Featured Hack
+
+    script#github-template(type="text/template")
+        .icon-github
+        small.credit.invisible Courtesy of GitHub api
+        .window.scrollable
+            h2 Recent Commits
+            .git-commits
+
+        h2.name Github
+    script#git-template(type="text/template")
+        <% _.each(payload.commits, function(commit) { %>
+        li.commit <%= commit.message %>
+            .date-time <%= created_at %>
+        <% }) %>
+
+    script#listening-template(type="text/template")
+        .icon-music
+        small.credit.invisible Courtesy of last.fm api
+        .window
+            .song-list.scroll
+        h2.name Listening
+
+    script#song-template(type="text/template")
+        img(src!="<%= image_url %>")
+        .details
+            a.title(href!="<%= url %>") <%= name %>
+            .author <%= artist_name %>
           

@@ -47,6 +47,15 @@
        -o-transition: @transition;
           transition: @transition;
 }
+// Transformations
+.rotate(@degrees) {
+  -webkit-transform: rotate(@degrees);
+     -moz-transform: rotate(@degrees);
+      -ms-transform: rotate(@degrees);
+       -o-transform: rotate(@degrees);
+          transform: rotate(@degrees);
+}
+
 // For clearing floats like a boss h5bp.com/q
 .clearfix() {
   *zoom: 1;
@@ -72,10 +81,12 @@
 }
 
 // Variables
+@baseLineHeight: 16px;
 @gridWidth:960px;
 @header-height:92px;
 @pad: 25px;
 @gray: #808080;
+@grayDark: #444444;
 @grayLight:#ECEAEB;
 @grayLighter:#B7B7B7;
 @lightPeach:#DBC1AE;
@@ -106,6 +117,26 @@ h1, h2, h3, h4, h5 {
     font-family:@fontHeader;
     margin:0.5em 0px;
 }
+a {
+    text-decoration:none;
+    outline:none;
+    border:none;
+}
+a.big-link {
+    font-family:@fontHeader;
+    font-size:125%;
+    margin:0.5em 0px;
+    &:after {
+        font-family: "FontIcons";
+        content:"\e912\e912";
+        margin-left:10px;
+        font-size: 150%;
+        letter-spacing: -8px;
+    }
+    &:hover {
+        text-decoration:underline;
+    }
+}
 .clear {
     .clearfix;
 }
@@ -116,12 +147,18 @@ h1, h2, h3, h4, h5 {
 .orange {
     color:@orange;
 }
+.pull-right {
+    float:right;
+}
 .container {
     .container-fixed;
 }
 .main-content {
     padding-top:@header-height;
     .transition(all linear 0.3s);
+}
+#bio .main-content {
+    min-height: 56c0px;
 }
 
 // ordering
@@ -148,17 +185,20 @@ h1, h2, h3, h4, h5 {
         display:inline-block;
         margin:0px 10px;
         text-transform:uppercase;
-        a {
+        a.nav-link {
             text-decoration: none;
             color:@aquaLight;
             &:hover {
                 color:rgba(255,255,255,0.8);
             }
+            &.active {
+                color:white;
+            }
         }
     }
 }
 .nav.orange {
-    a {color:@orangeOver;}
+    a.nav-link {color:@orangeOver;}
 }
 .header-tricks {
     
@@ -213,8 +253,9 @@ h1, h2, h3, h4, h5 {
     border:5px solid @grayLight;
     padding:15px;
     margin:10px 0px;
+    width: 100%;
 }
-.tweet {
+.block {
     .date-time {
         font-size:10px;
         color:@aquaLight;
@@ -223,15 +264,42 @@ h1, h2, h3, h4, h5 {
     }
 }
 .hackathon {
-    color:@red;
-    h2 { margin:0px;}
+    a {color:@red;}   
 }
 .press {
-    color:@aquaDark;
-    h2 { margin:0px;}
+    a {color:@aquaDark;}
+}
+.hackathon, .press {
+    a {
+        display:inline-block;
+        font-family:@fontHeader;
+        font-size:18px;
+        text-decoration:none;
+        position:relative;
+        &:hover {
+            &:after {
+                content:"\21F2";
+                position:absolute;
+                top:-4px;
+                right:-15px;
+                .rotate(-90deg);
+            }
+        }
+    }
+    small {
+        color:@gray;
+        display:block;
+    }
 }
 
-.grid.page1 {
+.hacker-video {
+  margin:0px auto;
+  width:850px;
+}
+
+
+// GRID STUFF
+.grid.page1, .grid.page2 {
     margin-top:100px;
 }
 // Grid
@@ -268,6 +336,9 @@ h1, h2, h3, h4, h5 {
 .col-1-8 {
   width: @gridWidth / 8;
 }
+.card-width(@columns, @adjustment:0) {
+    width: (@gridWidth / @columns) - @pad;
+}
 
 /* Opt-in outside padding */
 .grid-pad {
@@ -284,4 +355,30 @@ h1, h2, h3, h4, h5 {
 }
 .invisible {
     .opacity(0);
+}
+// MISC
+// ----
+.soften(@innerColor: rgba(0,0,0,0.1), @outerColor:transparent) {
+  height: 1px;
+  background-image: -webkit-linear-gradient(left, @outerColor, @innerColor, @outerColor);
+  background-image:    -moz-linear-gradient(left, @outerColor, @innerColor, @outerColor);
+  background-image:     -ms-linear-gradient(left, @outerColor, @innerColor, @outerColor);
+  background-image:      -o-linear-gradient(left, @outerColor, @innerColor, @outerColor);
+  border: 0;
+}
+// Horizontal rules
+hr {
+  margin: @baseLineHeight 0;
+  border: 0;
+  border-top: 1px solid #e5e5e5;
+  border-bottom: 1px solid white;
+}
+hr.soften {
+  .soften;
+}
+hr.thin {
+  margin: 2px auto;
+  border: 0;
+  border-top: 1px solid #e5e5e5;
+  border-bottom: 1px solid white;
 }

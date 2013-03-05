@@ -48,10 +48,5 @@ app.get('/', function (req, res) {
   { title : 'Home' }
   )
 })
-app.get('/hacker', function (req, res) {
-  res.render('hacker',
-  { title : 'Hacker' }
-  )
-})
 
 app.listen(3000)
