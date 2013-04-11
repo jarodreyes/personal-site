@@ -6,7 +6,7 @@ block content
     li: a.nav-link.active(href="#", data-route="bio/") Jarod Reyes
     li: a.nav-link(href="#", data-route="hacker/") Hacker
     li: a.nav-link(href="#", data-route="developer/") Developer
-  .logo-bg
+  .logo-bg.main
   img.logo(src="/img/logo.png")  
   #bio.container
     .main-content
@@ -34,6 +34,7 @@ block content
             
 
   include hacker
+  include developer
   include reading-window-template
   include tweet-template
 

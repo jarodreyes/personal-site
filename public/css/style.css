@@ -103,6 +103,7 @@ a.big-link:hover{text-decoration:underline;}
 .clear:after{clear:both;}
 .aqua{color:#389986;}
 .orange{color:#cc5332;}
+.turq{color:#4a7d82;}
 .pull-right{float:right;}
 .container{width:960px;margin-left:auto;margin-right:auto;*zoom:1;}.container:before,.container:after{display:table;content:"";}
 .container:after{clear:both;}
@@ -110,6 +111,8 @@ a.big-link:hover{text-decoration:underline;}
 #bio .main-content{min-height:56c0px;}
 .header-main{z-index:991;}
 .header-hacker{z-index:993;}
+.header-developer{z-index:990;}
+.header-developer .logo-bg{z-index:970;}
 .logo-bg{z-index:992;}
 .logo{z-index:1001;}
 .nav{z-index:1002;}
@@ -125,6 +128,8 @@ a.big-link:hover{text-decoration:underline;}
 .header-offset{width:100%;height:70px;top:0px;position:relative;}
 .header-hacker{width:100%;height:70px;position:relative;background:#cc5332;top:38px;}.header-hacker .logo-bg{position:absolute;background:#cc5332;top:-40px;}
 .header-hacker.fixed{position:fixed;top:38px;}
+.header-developer{width:100%;height:70px;position:relative;background:#2c4849;top:38px;}.header-developer .logo-bg{position:absolute;width:149px;height:149px;background:url("../img/bg.gif");top:-110px;left:20px;padding:8px;-webkit-border-radius:50%;-moz-border-radius:50%;border-radius:50%;}
+.header-developer.fixed{position:fixed;top:90px;}
 .framed,.block{display:block;background:white;border:5px solid #eceaeb;padding:15px;margin:10px 0px;width:100%;}
 .block .date-time{font-size:10px;color:#74c1b2;float:right;margin:10px 0px -5px;}
 .hackathon a{color:#801227;}

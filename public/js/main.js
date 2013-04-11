@@ -2,7 +2,7 @@
 var __hasProp = {}.hasOwnProperty,
   __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-define(['reading-window', 'hacking-window', 'github-window', 'listening-window'], function(ReadingWindow, HackingWindow, GithubWindow, ListeningWindow) {
+define(['reading-window', 'hacking-window', 'github-window', 'listening-window', 'voxy-window'], function(ReadingWindow, HackingWindow, GithubWindow, ListeningWindow, VoxyWindow) {
   var HEADER_PADDING, MainApp, MainPage, MainRouter, TweetCollection, TweetManager, TweetView, app;
   HEADER_PADDING = 45;
   MainApp = (function(_super) {
@@ -35,7 +35,8 @@ define(['reading-window', 'hacking-window', 'github-window', 'listening-window']
 
     MainRouter.prototype.routes = {
       'bio/': 'showBio',
-      'hacker/': 'showHacker'
+      'hacker/': 'showHacker',
+      'developer/': 'showDeveloper'
     };
 
     MainRouter.prototype.initialize = function() {
@@ -43,7 +44,8 @@ define(['reading-window', 'hacking-window', 'github-window', 'listening-window']
       this.reading = new ReadingWindow;
       this.hacking = new HackingWindow;
       this.git = new GithubWindow;
-      return this.listening = new ListeningWindow;
+      this.listening = new ListeningWindow;
+      return this.voxy = new VoxyWindow;
     };
 
     MainRouter.prototype.showBio = function() {
@@ -51,8 +53,11 @@ define(['reading-window', 'hacking-window', 'github-window', 'listening-window']
     };
 
     MainRouter.prototype.showHacker = function() {
-      this.mainPage.scrollToHacker();
-      return console.log('yay');
+      return this.mainPage.scrollToHacker();
+    };
+
+    MainRouter.prototype.showDeveloper = function() {
+      return this.mainPage.scrollToDeveloper();
     };
 
     return MainRouter;
@@ -82,36 +87,101 @@ define(['reading-window', 'hacking-window', 'github-window', 'listening-window']
     };
 
     MainPage.prototype.detectScroll = function(event) {
-      var $hackerHeader, hackerTop,
+      var developerTop, hackerTop,
         _this = this;
       this.headerH = $('.header-main').outerHeight();
-      $hackerHeader = $('.header-hacker');
-      hackerTop = $hackerHeader.offset().top - (this.headerH - HEADER_PADDING);
+      this.hackerHeader = $('.header-hacker');
+      this.developerHeader = $('.header-developer');
+      hackerTop = this.hackerHeader.offset().top - (this.headerH - HEADER_PADDING);
+      developerTop = this.developerHeader.offset().top - (this.headerH + this.hackerHeader.outerHeight());
       return $(window).scroll(function(event) {
         var hackerMovement, top;
         top = $(window).scrollTop();
         hackerMovement = $('.header-hacker').offset().top;
-        if (top >= hackerTop) {
+        console.log(top, developerTop);
+        if (top >= hackerTop && top < developerTop) {
           $('.header-offset').removeClass('absolute');
-          $hackerHeader.addClass('fixed');
-          $('.nav').addClass('fixed orange');
-          $('.logo').addClass('fixed');
-          Backbone.history.navigate('hacker/');
-          return _this.toggleActive(void 0, 'hacker');
-        } else {
-          $('.header-offset').addClass('absolute');
-          $hackerHeader.removeClass('fixed');
-          $('.nav').removeClass('fixed orange');
-          $('.logo').removeClass('fixed');
-          Backbone.history.navigate('/');
-          return _this.toggleActive(void 0, 'bio');
+          _this.afixHacker(true);
+          _this.afixBio(false);
+        }
+        if (top >= developerTop) {
+          _this.afixDeveloper(true);
+        }
+        if (top < developerTop) {
+          _this.afixDeveloper(false);
+        }
+        if (top < hackerTop) {
+          _this.afixHacker(false);
+          return _this.afixBio(true);
         }
       });
     };
 
+    MainPage.prototype.afixHacker = function(afix) {
+      if (afix == null) {
+        afix = null;
+      }
+      if (afix) {
+        this.hackerHeader.addClass('fixed');
+        Backbone.history.navigate('hacker/');
+        return this.toggleActive(void 0, 'hacker');
+      } else {
+        this.hackerHeader.removeClass('fixed');
+        return this.afixBio(true);
+      }
+    };
+
+    MainPage.prototype.afixDeveloper = function(afix) {
+      if (afix == null) {
+        afix = null;
+      }
+      if (afix) {
+        this.developerHeader.addClass('fixed');
+        Backbone.history.navigate('developer/');
+        return this.toggleActive(void 0, 'developer');
+      } else {
+        return this.developerHeader.removeClass('fixed');
+      }
+    };
+
+    MainPage.prototype.afixBio = function(afix) {
+      if (afix == null) {
+        afix = null;
+      }
+      if (afix) {
+        $('.header-offset').addClass('absolute');
+        $('.logo-bg.main').show();
+        $('.nav').removeClass('fixed orange');
+        $('.logo').removeClass('fixed');
+        Backbone.history.navigate('/');
+        return this.toggleActive(void 0, 'bio');
+      } else {
+        $('.nav').addClass('fixed orange');
+        $('.logo').addClass('fixed');
+        return $('.logo-bg.main').hide();
+      }
+    };
+
+    MainPage.prototype.unfixHeaders = function() {
+      $('.header-offset').addClass('absolute');
+      this.hackerHeader.removeClass('fixed');
+      this.developerHeader.removeClass('fixed');
+      $('.logo-bg.main').show();
+      $('.nav').removeClass('fixed orange');
+      $('.logo').removeClass('fixed');
+      Backbone.history.navigate('/');
+      return this.toggleActive(void 0, 'bio');
+    };
+
     MainPage.prototype.scrollToHacker = function(event) {
-      return $('html, body').animate({
+      debugger;      return $('html, body').animate({
         scrollTop: $("#hacker").offset().top
+      }, 700);
+    };
+
+    MainPage.prototype.scrollToDeveloper = function(event) {
+      return $('html, body').animate({
+        scrollTop: $("#developer").offset().top
       }, 700);
     };
 

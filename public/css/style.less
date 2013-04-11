@@ -95,6 +95,8 @@
 @orangeOver:#E0B699;
 @aquaDark: #389986;
 @aquaLight: #74C1B2;
+@turqDark: #2C4849;
+@turquoise: #4A7D82;
 @fontHeader: 'Fjalla One', sans-serif;
 
 // Global Styles
@@ -147,6 +149,9 @@ a.big-link {
 .orange {
     color:@orange;
 }
+.turq {
+    color:@turquoise;
+}
 .pull-right {
     float:right;
 }
@@ -164,6 +169,8 @@ a.big-link {
 // ordering
 .header-main { z-index:991;}
 .header-hacker { z-index:993;}
+.header-developer { z-index:990;}
+.header-developer .logo-bg {z-index:970;}
 .logo-bg { z-index:992;}
 .logo {z-index:1001;}
 .nav {z-index:1002;}
@@ -244,6 +251,25 @@ a.big-link {
     &.fixed {
         position:fixed;
         top:38px;
+    }
+}
+.header-developer {
+    .size(70px, 100%);
+    position:relative;
+    background:@turqDark;
+    top:38px;
+    .logo-bg {
+        position:absolute;
+        .square(149px);
+        background:url("../img/bg.gif");
+        top: -110px;
+        left: 20px;
+        padding: 8px;
+        .border-radius(50%);
+    }
+    &.fixed {
+        position:fixed;
+        top: 90px;
     }
 }
 

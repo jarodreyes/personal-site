@@ -1,5 +1,5 @@
-define ['reading-window', 'hacking-window', 'github-window', 'listening-window'], 
-(ReadingWindow, HackingWindow, GithubWindow, ListeningWindow) ->
+define ['reading-window', 'hacking-window', 'github-window', 'listening-window', 'voxy-window'], 
+(ReadingWindow, HackingWindow, GithubWindow, ListeningWindow, VoxyWindow) ->
     HEADER_PADDING = 45
 
     class MainApp extends Backbone.Marionette.Application
@@ -16,6 +16,7 @@ define ['reading-window', 'hacking-window', 'github-window', 'listening-window']
         routes:
             'bio/': 'showBio'
             'hacker/': 'showHacker'
+            'developer/': 'showDeveloper'
 
         initialize: ->
             @mainPage = new MainPage
@@ -23,13 +24,16 @@ define ['reading-window', 'hacking-window', 'github-window', 'listening-window']
             @hacking = new HackingWindow
             @git = new GithubWindow
             @listening = new ListeningWindow
+            @voxy = new VoxyWindow
 
         showBio: ->
             @mainPage.scrollToBio()
 
         showHacker: ->
             @mainPage.scrollToHacker()
-            console.log 'yay'
+
+        showDeveloper: ->
+            @mainPage.scrollToDeveloper()
 
     class MainPage extends Backbone.Marionette.Layout
         el: 'body'
@@ -47,29 +51,79 @@ define ['reading-window', 'hacking-window', 'github-window', 'listening-window']
 
         detectScroll: (event) ->
             @headerH = $('.header-main').outerHeight()
-            $hackerHeader = $ '.header-hacker'
-            hackerTop = $hackerHeader.offset().top - (@headerH - HEADER_PADDING)
+            @hackerHeader = $ '.header-hacker'
+            @developerHeader = $ '.header-developer'
+            hackerTop = @hackerHeader.offset().top - (@headerH - HEADER_PADDING)
+            developerTop = @developerHeader.offset().top - (@headerH + @hackerHeader.outerHeight())
             $(window).scroll (event) =>
                 top = $(window).scrollTop()
                 hackerMovement = $('.header-hacker').offset().top
-                if top >= hackerTop
+                console.log top, developerTop
+
+                if top >= hackerTop and top < developerTop
                     $('.header-offset').removeClass('absolute')
-                    $hackerHeader.addClass('fixed')
-                    $('.nav').addClass('fixed orange')
-                    $('.logo').addClass('fixed')
-                    Backbone.history.navigate 'hacker/'
-                    @toggleActive undefined, 'hacker'
-                else
-                    $('.header-offset').addClass('absolute')
-                    $hackerHeader.removeClass('fixed')
-                    $('.nav').removeClass('fixed orange')
-                    $('.logo').removeClass('fixed')
-                    Backbone.history.navigate '/'
-                    @toggleActive undefined, 'bio'
+                    @afixHacker true
+                    @afixBio false
+                    
+                if top >= developerTop
+                    @afixDeveloper true
+
+                if top < developerTop
+                    @afixDeveloper false
+                    
+                if top < hackerTop
+                    @afixHacker false
+                    @afixBio true
+
+        afixHacker: (afix= null) ->
+            if afix
+                @hackerHeader.addClass('fixed')
+                Backbone.history.navigate 'hacker/'
+                @toggleActive undefined, 'hacker'
+            else
+                @hackerHeader.removeClass('fixed')
+                @afixBio true
+
+        afixDeveloper: (afix= null) ->
+            if afix
+                @developerHeader.addClass('fixed')
+                Backbone.history.navigate 'developer/'
+                @toggleActive undefined, 'developer'
+            else
+                @developerHeader.removeClass('fixed')
+
+        afixBio: (afix= null) ->
+            if afix
+                $('.header-offset').addClass('absolute')
+                $('.logo-bg.main').show()
+                $('.nav').removeClass('fixed orange')
+                $('.logo').removeClass('fixed')
+                Backbone.history.navigate '/'
+                @toggleActive undefined, 'bio'
+            else
+                $('.nav').addClass('fixed orange')
+                $('.logo').addClass('fixed')
+                $('.logo-bg.main').hide()
+
+        unfixHeaders: ->
+            $('.header-offset').addClass('absolute')
+            @hackerHeader.removeClass('fixed')
+            @developerHeader.removeClass('fixed')
+            $('.logo-bg.main').show()
+            $('.nav').removeClass('fixed orange')
+            $('.logo').removeClass('fixed')
+            Backbone.history.navigate '/'
+            @toggleActive undefined, 'bio'
 
         scrollToHacker: (event)->
+            debugger
             $('html, body').animate
                 scrollTop: $("#hacker").offset().top
+            , 700
+
+        scrollToDeveloper: (event)->
+            $('html, body').animate
+                scrollTop: $("#developer").offset().top
             , 700
 
         scrollToBio: (event)->
