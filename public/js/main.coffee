@@ -25,6 +25,7 @@ define ['reading-window', 'hacking-window', 'github-window', 'listening-window',
             @git = new GithubWindow
             @listening = new ListeningWindow
             @voxy = new VoxyWindow
+            @mainPage.setupHeight()
 
         showBio: ->
             @mainPage.scrollToBio()
@@ -49,48 +50,57 @@ define ['reading-window', 'hacking-window', 'github-window', 'listening-window',
             _.bindAll @, 'detectScroll'
             @detectScroll()
 
-        detectScroll: (event) ->
+        setupHeight: ->
             @headerH = $('.header-main').outerHeight()
             @hackerHeader = $ '.header-hacker'
             @developerHeader = $ '.header-developer'
-            hackerTop = @hackerHeader.offset().top - (@headerH - HEADER_PADDING)
-            developerTop = @developerHeader.offset().top - (@headerH + @hackerHeader.outerHeight())
+            @hackerDisplay = $ '.hacker-display'
+            @developerDisplay = $ '.developer-display'
+            @hackerTop = @hackerHeader.offset().top - (@headerH - HEADER_PADDING)
+            @developerTop = @developerHeader.offset().top - (@headerH + @hackerHeader.outerHeight())
+
+        detectScroll: (event) ->
             $(window).scroll (event) =>
+                console.log @hackerTop, @developerTop
                 top = $(window).scrollTop()
                 hackerMovement = $('.header-hacker').offset().top
-                console.log top, developerTop
 
-                if top >= hackerTop and top < developerTop
-                    $('.header-offset').removeClass('absolute')
+                if top >= @hackerTop and top < @developerTop
                     @afixHacker true
                     @afixBio false
                     
-                if top >= developerTop
+                if top >= @developerTop
                     @afixDeveloper true
 
-                if top < developerTop
+                if top < @developerTop
                     @afixDeveloper false
                     
-                if top < hackerTop
+                if top < @hackerTop
                     @afixHacker false
                     @afixBio true
 
         afixHacker: (afix= null) ->
             if afix
-                @hackerHeader.addClass('fixed')
+                $('#hacker > .header-offset').removeClass('absolute')
+                @hackerDisplay.addClass 'show'
+                @hackerHeader.addClass 'fixed' 
                 Backbone.history.navigate 'hacker/'
                 @toggleActive undefined, 'hacker'
             else
+                @hackerDisplay.removeClass 'show'
                 @hackerHeader.removeClass('fixed')
                 @afixBio true
 
         afixDeveloper: (afix= null) ->
             if afix
-                @developerHeader.addClass('fixed')
+                $('#developer > .header-offset').removeClass('absolute')
+                @developerDisplay.addClass 'show'
+                @developerHeader.addClass 'fixed'
                 Backbone.history.navigate 'developer/'
                 @toggleActive undefined, 'developer'
             else
-                @developerHeader.removeClass('fixed')
+                @developerDisplay.removeClass 'show'
+                @developerHeader.removeClass 'fixed'
 
         afixBio: (afix= null) ->
             if afix
@@ -116,20 +126,28 @@ define ['reading-window', 'hacking-window', 'github-window', 'listening-window',
             @toggleActive undefined, 'bio'
 
         scrollToHacker: (event)->
-            debugger
-            $('html, body').animate
-                scrollTop: $("#hacker").offset().top
-            , 700
+            @prepareScroll()
+            _.defer =>
+                $('html, body').animate
+                    scrollTop: @hackerTop
+                , 700
 
         scrollToDeveloper: (event)->
-            $('html, body').animate
-                scrollTop: $("#developer").offset().top
-            , 700
+            @prepareScroll()
+            _.defer =>
+                $('html, body').animate
+                    scrollTop: @developerTop
+                , 700
 
         scrollToBio: (event)->
-            $('html, body').animate
-                scrollTop: $("#bio").offset().top
-            , 700
+            @prepareScroll()
+            _.defer =>
+                $('html, body').animate
+                    scrollTop: $("#bio").offset().top
+                , 700
+
+        prepareScroll: ->
+            $('.window').removeClass 'open'
 
         navigateTo: (event) ->
             data = $(event.currentTarget).data()
@@ -145,7 +163,6 @@ define ['reading-window', 'hacking-window', 'github-window', 'listening-window',
                 $(event.target).addClass 'active'
             if element
                 $(".nav-link[data-route*=#{element}]").addClass 'active'
-                console.log "#{element}"
 
     class TweetView extends Backbone.Marionette.ItemView
         template: _.template $('#tweet-template').html()

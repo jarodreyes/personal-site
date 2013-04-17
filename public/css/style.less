@@ -1,7 +1,7 @@
 /*
  * Grab a custom font from Google
  */
-@import url('http://fonts.googleapis.com/css?family=Fjalla+One'); 
+@import url('http://fonts.googleapis.com/css?family=Fjalla+One|Oleo+Script+Swash+Caps:400,700|Miltonian+Tattoo|Piedra');
 
 @import "fonts.css";
 @import "icons.less";
@@ -70,7 +70,7 @@
 }
 .opacity(@opacity: 100) {
   opacity: @opacity / 100;
-   filter: e(%("alpha(opacity=%d)", @opacity));
+  filter: e(%("alpha(opacity=%d)", @opacity));
 }
 
 .container-fixed() {
@@ -95,12 +95,14 @@
 @orangeOver:#E0B699;
 @aquaDark: #389986;
 @aquaLight: #74C1B2;
+@blueLight: #7AB7C2;
 @turqDark: #2C4849;
 @turquoise: #4A7D82;
 @fontHeader: 'Fjalla One', sans-serif;
+@fontScript: 'Piedra', cursive;
 
 // Global Styles
-* {
+body * {
   .box-sizing(border-box);
 }
 body {
@@ -114,7 +116,9 @@ body {
     margin:0px;
     padding:0px;
 }
-
+span *{
+  display:inline-block;
+}
 h1, h2, h3, h4, h5 {
     font-family:@fontHeader;
     margin:0.5em 0px;
@@ -163,7 +167,7 @@ a.big-link {
     .transition(all linear 0.3s);
 }
 #bio .main-content {
-    min-height: 56c0px;
+    min-height: 560px;
 }
 
 // ordering
@@ -237,6 +241,7 @@ a.big-link {
     .size(70px, 100%);
     top:0px;
     position:relative;
+    .transition(all linear 0.2s);
 }
 .header-hacker {
     .size(70px, 100%);
@@ -272,7 +277,21 @@ a.big-link {
         top: 90px;
     }
 }
-
+.hacker-display, .developer-display {
+    .opacity(0);
+    position:absolute;
+    font-size:90px;
+    font-family:@fontHeader;
+    color:@orange;
+    text-transform: uppercase;
+    .transition(all linear 0.3s);
+    &.show {
+        .opacity(50);
+    }
+}
+.developer-display {
+  color:@aquaDark;
+}
 .framed, .block {
     display:block;
     background:white;
@@ -280,13 +299,15 @@ a.big-link {
     padding:15px;
     margin:10px 0px;
     width: 100%;
+    position:relative;
 }
 .block {
     .date-time {
         font-size:10px;
         color:@aquaLight;
-        float:right;
-        margin: 10px 0px -5px;
+        position:absolute;
+        bottom:5px;
+        right:15px;
     }
 }
 .hackathon {
@@ -322,11 +343,17 @@ a.big-link {
   margin:0px auto;
   width:850px;
 }
+.hack-preview {
+  img {width: 255px;}
+}
 
 
 // GRID STUFF
 .grid.page1, .grid.page2 {
-    margin-top:100px;
+    margin-top:60px;
+}
+.grid.page3 {
+    margin-top:40px;
 }
 // Grid
 .grid {
@@ -363,7 +390,7 @@ a.big-link {
   width: @gridWidth / 8;
 }
 .card-width(@columns, @adjustment:0) {
-    width: (@gridWidth / @columns) - @pad;
+    width: (@gridWidth / @columns);
 }
 
 /* Opt-in outside padding */
@@ -407,4 +434,112 @@ hr.thin {
   border: 0;
   border-top: 1px solid #e5e5e5;
   border-bottom: 1px solid white;
+}
+
+// Developer Window
+.tap-window.data .window.open {
+  overflow: visible;
+  height: 340px;
+}
+.tweet-feed.code-samples {
+  a {
+    display: block;
+    margin-left: 20px;
+    color: @gray;
+    &:hover {
+      text-decoration:underline;
+    }
+  }
+  h3 {
+    color:@aquaLight;
+    margin:0px;
+  }
+}
+.voxy-data {
+    .overflow {
+      overflow: hidden;
+      width: 295px;
+      margin-left: -20px;
+      position: relative;
+      padding-top: 70px;
+    }
+    .voxy-banner {
+      background: white;
+      border: 2px solid @blueLight;
+      .size( 52px, 315px);
+      color: @aquaLight;
+      position: absolute;
+      font-size: 32px;
+      line-height: 1;
+      font-family: @fontHeader;
+      left: -10px;
+      top: 0px;
+      text-transform: uppercase;
+      h3 {
+        color: @aquaLight;
+        text-transform: uppercase;
+        font-size: 36px;
+        display: inline;
+        line-height: 50px;
+        text-shadow: 2px 2px 1px @turqDark;
+      }
+    }
+    .banner-end {
+      position:absolute;
+      background:url("../img/banner-ends.png") no-repeat;
+      .size(60px, 38px);
+      z-index:1020;
+      top: 56px;
+      &.right {
+        right: -27px;
+        background-position: -78px -5px;
+      }
+      &.left {
+        left: -26px;
+        background-position: -4px -5px;
+      }
+    }
+    .users {
+        background:url("../img/users.png");
+        .size(50px, 110px);
+        background-repeat: no-repeat;
+        margin: -8px auto 0px;
+    }
+    li {
+        border-top:2px solid @grayDark;
+        .size(48px, 100%);
+        line-height: 48px;
+        font-family:@fontHeader;
+        font-size:22px;
+        text-transform: uppercase;
+        color:#4d4d4d;
+        list-style: none;
+        b {
+          display:inline;
+          font-family: @fontScript;
+          font-size: 30px;
+          text-transform: lowercase;
+          font-weight: normal;
+          line-height: 40px;
+          letter-spacing: 1px;
+          margin-left: 4px;
+        }
+        &.last {
+          font-size:14px;
+
+          b { 
+            font-size: 14px;
+            margin: 5px;
+            color:@grayLighter; 
+            font-family:@fontHeader;
+          }
+          p {margin:0px;}
+          span {
+            float:left;
+          }
+          span:last-child {
+            float:right;
+          }
+        }
+    }
 }

@@ -24,7 +24,8 @@
             .hack-slides.scroll
                 li.hack-preview
                     h2.orange Joysti.cc
-                    img(src="/img/joysticc-phone.png")
+                    a(href="http://joysti.cc/", target="_blank")
+                        img(src="/img/joysticc-phone.png")
                 li.hack-preview
                     span
                         dt Hackathon:
@@ -39,25 +40,30 @@
         h2.name Featured Hack
 
     script#voxy-window-template(type="text/template")
-        .icon-graph
+        .icon-chart
         .window
             .voxy-data
-                .voxy-banner 
-                    b 3 Million 
-                    | Users
-                li.coffee
-                    | 680 cups of coffee
-                li.code
-                    | 617845 Lines of code
-                li.lessons
-                    | 102,847,772 Lessons taught
-                li.last
-                    span 
-                        b 1200
-                        p pull requests
-                    span
-                        b 92
-                        p countries
+                .users
+                .banner-end.left
+                .banner-end.right
+                .overflow
+                    .voxy-banner 
+                        h3 3 Million 
+                        | Users
+                .data-list
+                    li.coffee
+                        | 680 cups of <b>coffee</b>
+                    li.code
+                        | 617,845 Lines of <b>code</b>
+                    li.lessons
+                        | 102,847,772 Lessons taught
+                    li.last
+                        span 
+                            b 1200
+                            p pull requests
+                        span
+                            b 92
+                            p countries
 
         h2.name Voxy by the Numbers
 

@@ -45,7 +45,8 @@ define(['reading-window', 'hacking-window', 'github-window', 'listening-window',
       this.hacking = new HackingWindow;
       this.git = new GithubWindow;
       this.listening = new ListeningWindow;
-      return this.voxy = new VoxyWindow;
+      this.voxy = new VoxyWindow;
+      return this.mainPage.setupHeight();
     };
 
     MainRouter.prototype.showBio = function() {
@@ -86,31 +87,34 @@ define(['reading-window', 'hacking-window', 'github-window', 'listening-window',
       return this.detectScroll();
     };
 
-    MainPage.prototype.detectScroll = function(event) {
-      var developerTop, hackerTop,
-        _this = this;
+    MainPage.prototype.setupHeight = function() {
       this.headerH = $('.header-main').outerHeight();
       this.hackerHeader = $('.header-hacker');
       this.developerHeader = $('.header-developer');
-      hackerTop = this.hackerHeader.offset().top - (this.headerH - HEADER_PADDING);
-      developerTop = this.developerHeader.offset().top - (this.headerH + this.hackerHeader.outerHeight());
+      this.hackerDisplay = $('.hacker-display');
+      this.developerDisplay = $('.developer-display');
+      this.hackerTop = this.hackerHeader.offset().top - (this.headerH - HEADER_PADDING);
+      return this.developerTop = this.developerHeader.offset().top - (this.headerH + this.hackerHeader.outerHeight());
+    };
+
+    MainPage.prototype.detectScroll = function(event) {
+      var _this = this;
       return $(window).scroll(function(event) {
         var hackerMovement, top;
+        console.log(_this.hackerTop, _this.developerTop);
         top = $(window).scrollTop();
         hackerMovement = $('.header-hacker').offset().top;
-        console.log(top, developerTop);
-        if (top >= hackerTop && top < developerTop) {
-          $('.header-offset').removeClass('absolute');
+        if (top >= _this.hackerTop && top < _this.developerTop) {
           _this.afixHacker(true);
           _this.afixBio(false);
         }
-        if (top >= developerTop) {
+        if (top >= _this.developerTop) {
           _this.afixDeveloper(true);
         }
-        if (top < developerTop) {
+        if (top < _this.developerTop) {
           _this.afixDeveloper(false);
         }
-        if (top < hackerTop) {
+        if (top < _this.hackerTop) {
           _this.afixHacker(false);
           return _this.afixBio(true);
         }
@@ -122,10 +126,13 @@ define(['reading-window', 'hacking-window', 'github-window', 'listening-window',
         afix = null;
       }
       if (afix) {
+        $('#hacker > .header-offset').removeClass('absolute');
+        this.hackerDisplay.addClass('show');
         this.hackerHeader.addClass('fixed');
         Backbone.history.navigate('hacker/');
         return this.toggleActive(void 0, 'hacker');
       } else {
+        this.hackerDisplay.removeClass('show');
         this.hackerHeader.removeClass('fixed');
         return this.afixBio(true);
       }
@@ -136,10 +143,13 @@ define(['reading-window', 'hacking-window', 'github-window', 'listening-window',
         afix = null;
       }
       if (afix) {
+        $('#developer > .header-offset').removeClass('absolute');
+        this.developerDisplay.addClass('show');
         this.developerHeader.addClass('fixed');
         Backbone.history.navigate('developer/');
         return this.toggleActive(void 0, 'developer');
       } else {
+        this.developerDisplay.removeClass('show');
         return this.developerHeader.removeClass('fixed');
       }
     };
@@ -174,21 +184,37 @@ define(['reading-window', 'hacking-window', 'github-window', 'listening-window',
     };
 
     MainPage.prototype.scrollToHacker = function(event) {
-      debugger;      return $('html, body').animate({
-        scrollTop: $("#hacker").offset().top
-      }, 700);
+      var _this = this;
+      this.prepareScroll();
+      return _.defer(function() {
+        return $('html, body').animate({
+          scrollTop: _this.hackerTop
+        }, 700);
+      });
     };
 
     MainPage.prototype.scrollToDeveloper = function(event) {
-      return $('html, body').animate({
-        scrollTop: $("#developer").offset().top
-      }, 700);
+      var _this = this;
+      this.prepareScroll();
+      return _.defer(function() {
+        return $('html, body').animate({
+          scrollTop: _this.developerTop
+        }, 700);
+      });
     };
 
     MainPage.prototype.scrollToBio = function(event) {
-      return $('html, body').animate({
-        scrollTop: $("#bio").offset().top
-      }, 700);
+      var _this = this;
+      this.prepareScroll();
+      return _.defer(function() {
+        return $('html, body').animate({
+          scrollTop: $("#bio").offset().top
+        }, 700);
+      });
+    };
+
+    MainPage.prototype.prepareScroll = function() {
+      return $('.window').removeClass('open');
     };
 
     MainPage.prototype.navigateTo = function(event) {
@@ -208,8 +234,7 @@ define(['reading-window', 'hacking-window', 'github-window', 'listening-window',
         $(event.target).addClass('active');
       }
       if (element) {
-        $(".nav-link[data-route*=" + element + "]").addClass('active');
-        return console.log("" + element);
+        return $(".nav-link[data-route*=" + element + "]").addClass('active');
       }
     };
 
