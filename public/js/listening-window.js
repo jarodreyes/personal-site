@@ -34,6 +34,7 @@ define(['window', 'jquery.xml2json'], function(WindowView, xml2json) {
     };
 
     ListeningWindow.prototype.initialize = function() {
+      this.uniqueTracks = [];
       this.getData();
       this.scrollable = true;
       this.pages = 19;
@@ -49,9 +50,12 @@ define(['window', 'jquery.xml2json'], function(WindowView, xml2json) {
 
     ListeningWindow.prototype.getData = function() {
       var _this = this;
-      return $.get(this.url, function(data) {
-        _this.data = data.recenttracks.track;
-        return _this.prepareData();
+      return $.ajax({
+        url: this.url,
+        success: function(data) {
+          _this.data = data.recenttracks.track;
+          return _this.prepareData();
+        }
       });
     };
 

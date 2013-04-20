@@ -61,7 +61,6 @@ define ['reading-window', 'hacking-window', 'github-window', 'listening-window',
 
         detectScroll: (event) ->
             $(window).scroll (event) =>
-                console.log @hackerTop, @developerTop
                 top = $(window).scrollTop()
                 hackerMovement = $('.header-hacker').offset().top
 

@@ -37,9 +37,12 @@ define(['window', 'jquery.xml2json'], function(WindowView, xml2json) {
 
     GithubWindow.prototype.getData = function() {
       var _this = this;
-      return $.get(this.url, function(data) {
-        _this.data = data;
-        return _this.prepareData();
+      return $.ajax({
+        url: this.url,
+        success: function(data) {
+          _this.data = data;
+          return _this.prepareData();
+        }
       });
     };
 

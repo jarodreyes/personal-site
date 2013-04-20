@@ -19,9 +19,11 @@ define ['window', 'jquery.xml2json'],
             super
 
         getData: () ->
-            $.get @url, (data) =>
-                @data = data
-                do @prepareData
+            $.ajax 
+                url: @url 
+                success: (data) =>
+                    @data = data
+                    do @prepareData
 
         prepareData: () ->
             gits = []

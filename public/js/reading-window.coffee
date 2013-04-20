@@ -32,10 +32,16 @@ define ['window', 'jquery.xml2json'],
             super
 
         getReadingData: ->
-            $.get @url, (xml) =>
-                data = $.xml2json(xml)
-                @model = new Backbone.Model data.reviews
-                @prepareData()
+            $.ajax
+                url: @url,
+                dataType: "xml",
+                type: 'GET',
+                success: (res) =>
+                    xml = res.responseText
+                    # This is the part xml2Json comes in.
+                    data = $.xml2json(xml)
+                    @model = new Backbone.Model data.reviews
+                    @prepareData()
 
         prepareData: ->
             reviews = @model.get 'review'

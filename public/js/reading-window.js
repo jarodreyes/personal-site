@@ -51,11 +51,17 @@ define(['window', 'jquery.xml2json'], function(WindowView, xml2json) {
 
     ReadingWindow.prototype.getReadingData = function() {
       var _this = this;
-      return $.get(this.url, function(xml) {
-        var data;
-        data = $.xml2json(xml);
-        _this.model = new Backbone.Model(data.reviews);
-        return _this.prepareData();
+      return $.ajax({
+        url: this.url,
+        dataType: "xml",
+        type: 'GET',
+        success: function(res) {
+          var data, xml;
+          xml = res.responseText;
+          data = $.xml2json(xml);
+          _this.model = new Backbone.Model(data.reviews);
+          return _this.prepareData();
+        }
       });
     };
 

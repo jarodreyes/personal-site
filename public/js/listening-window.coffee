@@ -16,6 +16,7 @@ define ['window', 'jquery.xml2json'],
         ui:
             'window': '.window'
         initialize: ->
+            @uniqueTracks = []
             @getData()
             @scrollable = true
             @pages = 19
@@ -28,9 +29,11 @@ define ['window', 'jquery.xml2json'],
             super
 
         getData: ->
-            $.get @url, (data) =>
-                @data = data.recenttracks.track
-                do @prepareData
+            $.ajax 
+                url: @url
+                success: (data) =>
+                    @data = data.recenttracks.track
+                    do @prepareData
 
         prepareData: ->
             for track in @data

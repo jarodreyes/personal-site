@@ -101,7 +101,6 @@ define(['reading-window', 'hacking-window', 'github-window', 'listening-window',
       var _this = this;
       return $(window).scroll(function(event) {
         var hackerMovement, top;
-        console.log(_this.hackerTop, _this.developerTop);
         top = $(window).scrollTop();
         hackerMovement = $('.header-hacker').offset().top;
         if (top >= _this.hackerTop && top < _this.developerTop) {
