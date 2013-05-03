@@ -8,19 +8,43 @@
     40% {-webkit-transform: scaleY(1.8);}
     60% {-webkit-transform: scaleY(1.5);}
 }
+@-webkit-keyframes bounceMe {
+    0%, 20%, 50%, 80% {-webkit-transform: scaleY(1); height:10px;}
+    40% {-webkit-transform: scaleY(1.8);}
+    60% {-webkit-transform: scaleY(1.5);}
+    100% {-webkit-transform: scaleY(1); height:0px;}
+}
 .tap-window {
     text-align:center;
     margin-bottom:20px;
     position:relative;
     cursor:pointer;
-    .window {
-        position:relative;
+    color:@orange;
+    [class^="icon-"] { color:@orange; }
+    &.closed {
+        color:@gray;
+        [class^="icon-"] { color:@gray; }
         &:hover {
-            height:10px;
-            -webkit-animation-name: bounce;
+            .window {
+                height:10px;
+                -webkit-animation-name: bounce;
+                -webkit-animation-duration: 1s;
+                -webkit-animation-fill-mode: both;
+
+            }
+            color:@orange;
+            [class^="icon-"] { color:@orange; }
+        }
+        .window.bounce {
+            height:0px;
+            -webkit-animation-name: bounceMe;
             -webkit-animation-duration: 1s;
             -webkit-animation-fill-mode: both;
+
         }
+    }
+    .window {
+        position:relative;
         .transition(all linear 0.1s);
         height:1px;
         padding:0px 20px;

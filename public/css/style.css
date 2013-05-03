@@ -77,8 +77,12 @@
 .icon-chevron-right:before{content:"\e912";}
 .icon-chevron-left:before{content:"\e912";-webkit-transform:rotate(180deg);-moz-transform:rotate(180deg);-ms-transform:rotate(180deg);-o-transform:rotate(180deg);transform:rotate(180deg);display:block;}
 .icon-review-book:before{content:"\e913";}
-@-webkit-keyframes bounce{0%,20%,50%,80%,100%{-webkit-transform:scale(1);} 40%{-webkit-transform:scaleY(1.8);} 60%{-webkit-transform:scaleY(1.5);}}@keyframes bounce{0%,20%,50%,80%,100%{-webkit-transform:scale(1);} 40%{-webkit-transform:scaleY(1.8);} 60%{-webkit-transform:scaleY(1.5);}}.tap-window{text-align:center;margin-bottom:20px;position:relative;cursor:pointer;}.tap-window .window{position:relative;-webkit-transition:all linear 0.1s;-moz-transition:all linear 0.1s;-ms-transition:all linear 0.1s;-o-transition:all linear 0.1s;transition:all linear 0.1s;height:1px;padding:0px 20px;overflow:hidden;border-top:1px solid #b7b7b7;border-bottom:2px solid white;background:url("../img/burlap.gif") transparent;margin:6px 0px 14px;}.tap-window .window:hover{height:10px;-webkit-animation-name:bounce;-webkit-animation-duration:1s;-webkit-animation-fill-mode:both;}
-.tap-window .window .card{width:320px;}
+@-webkit-keyframes bounce{0%,20%,50%,80%,100%{-webkit-transform:scale(1);} 40%{-webkit-transform:scaleY(1.8);} 60%{-webkit-transform:scaleY(1.5);}}@keyframes bounce{0%,20%,50%,80%,100%{-webkit-transform:scale(1);} 40%{-webkit-transform:scaleY(1.8);} 60%{-webkit-transform:scaleY(1.5);}}@-webkit-keyframes bounceMe{0%,20%,50%,80%{-webkit-transform:scaleY(1);height:10px;} 40%{-webkit-transform:scaleY(1.8);} 60%{-webkit-transform:scaleY(1.5);} 100%{-webkit-transform:scaleY(1);height:0px;}}.tap-window{text-align:center;margin-bottom:20px;position:relative;cursor:pointer;color:#cc5332;}.tap-window [class^="icon-"]{color:#cc5332;}
+.tap-window.closed{color:#808080;}.tap-window.closed [class^="icon-"]{color:#808080;}
+.tap-window.closed:hover{color:#cc5332;}.tap-window.closed:hover .window{height:10px;-webkit-animation-name:bounce;-webkit-animation-duration:1s;-webkit-animation-fill-mode:both;}
+.tap-window.closed:hover [class^="icon-"]{color:#cc5332;}
+.tap-window.closed .window.bounce{height:0px;-webkit-animation-name:bounceMe;-webkit-animation-duration:1s;-webkit-animation-fill-mode:both;}
+.tap-window .window{position:relative;-webkit-transition:all linear 0.1s;-moz-transition:all linear 0.1s;-ms-transition:all linear 0.1s;-o-transition:all linear 0.1s;transition:all linear 0.1s;height:1px;padding:0px 20px;overflow:hidden;border-top:1px solid #b7b7b7;border-bottom:2px solid white;background:url("../img/burlap.gif") transparent;margin:6px 0px 14px;}.tap-window .window .card{width:320px;}
 .tap-window .window.open{height:300px;padding:20px;-webkit-box-shadow:inset 0px 0px 10px #222222;-moz-box-shadow:inset 0px 0px 10px #222222;box-shadow:inset 0px 0px 10px #222222;}.tap-window .window.open:hover{-webkit-animation-name:none;}
 .tap-window .window.scrollable{overflow:scroll;}
 .tap-window .window .inner-scroll{width:8000%;margin-left:0px;-webkit-transition:all ease-in-out 0.3s;-moz-transition:all ease-in-out 0.3s;-ms-transition:all ease-in-out 0.3s;-o-transition:all ease-in-out 0.3s;transition:all ease-in-out 0.3s;}
@@ -160,6 +164,7 @@ hr.thin{margin:2px auto;border:0;border-top:1px solid #e5e5e5;border-bottom:1px 
 .tap-window.data .window.open{overflow:visible;height:340px;}
 .tweet-feed.code-samples a{display:block;margin-left:20px;color:#808080;}.tweet-feed.code-samples a:hover{text-decoration:underline;}
 .tweet-feed.code-samples h3{color:#74c1b2;margin:0px;}
+.quotes{text-align:center;}
 .voxy-data .overflow{overflow:hidden;width:295px;margin-left:-20px;position:relative;padding-top:70px;}
 .voxy-data .voxy-banner{background:white;border:2px solid #7ab7c2;width:315px;height:52px;color:#74c1b2;position:absolute;font-size:32px;line-height:1;font-family:'Fjalla One',sans-serif;left:-10px;top:0px;text-transform:uppercase;}.voxy-data .voxy-banner h3{color:#74c1b2;text-transform:uppercase;font-size:36px;display:inline;line-height:50px;text-shadow:2px 2px 1px #2c4849;}
 .voxy-data .banner-end{position:absolute;background:url("../img/banner-ends.png") no-repeat;width:38px;height:60px;z-index:1020;top:56px;}.voxy-data .banner-end.right{right:-27px;background-position:-78px -5px;}

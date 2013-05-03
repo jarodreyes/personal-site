@@ -49,6 +49,20 @@ define ['reading-window', 'hacking-window', 'github-window', 'listening-window',
         initialize: ->
             _.bindAll @, 'detectScroll'
             @detectScroll()
+            @idleTime = 0
+            @inactive = true
+            @detectIdleness()
+
+        detectIdleness: ->
+            idleInterval = setInterval @clockIncrement, 10000
+            @$el.mousemove => @idleTime = 0
+            @$el.keypress => @idleTime = 0
+
+
+        clockIncrement: =>
+            @idleTime++
+            if @idleTime > 3
+                (@$ '.reading > .window').toggleClass('bounce')
 
         setupHeight: ->
             @headerH = $('.header-main').outerHeight()

@@ -55,6 +55,7 @@ define([], function() {
 
     WindowView.prototype.toggleWindow = function(event) {
       (this.$('.window')).toggleClass('open');
+      this.$el.toggleClass('closed');
       if (this.scrollable) {
         return this.setupSlider();
       }

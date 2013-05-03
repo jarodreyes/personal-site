@@ -32,5 +32,6 @@ define [], () ->
 
         toggleWindow: (event) ->
             (@$ '.window').toggleClass 'open'
+            @$el.toggleClass 'closed'
             if @scrollable
             	do @setupSlider
