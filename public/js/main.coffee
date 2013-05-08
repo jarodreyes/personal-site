@@ -58,7 +58,6 @@ define ['reading-window', 'hacking-window', 'github-window', 'listening-window',
             @$el.mousemove => @idleTime = 0
             @$el.keypress => @idleTime = 0
 
-
         clockIncrement: =>
             @idleTime++
             if @idleTime > 3
