@@ -17,7 +17,7 @@ var stream = new Stream({
 });
  
 // ## CORS middleware
-// 
+// Headers -> CORS
 // see: http://stackoverflow.com/questions/7067966/how-to-allow-cors-in-express-nodejs
 var allowCrossDomain = function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
@@ -43,9 +43,14 @@ app.use(lessMiddleware({
 }))
 app.use(express.static(__dirname + '/public'))
 
-app.get('/*', function (req, res) {
+app.get('/', function (req, res) {
   res.render('index',
   { title : 'Home' }
+  )
+});
+app.get('/ifttt', function (req, res) {
+  res.render('ifttt/index',
+  { title: 'IFTTT:project' }
   )
 });
 
