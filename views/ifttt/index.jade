@@ -1,7 +1,20 @@
 extend ../layout_footless
 
 block content
-  h3 IFTTT Project
-  
+    .netflix-content
+        .header
+            h3 IFTTT Project: Top 100
+            .right
+                a.sort(href="#", data-value="ranking") Ranking
+                a.sort(href="#", data-value="title") Title
+        .movie-list
 
-        
+  
+    script#movie-template(type="text/template")
+        a.card(href!="<%= link %>", target="_blank")
+            .cover 
+                img(src!='<%= image_url %>')
+            .overlay
+                small.outer-link Click to see movie details
+                .title <%= title %>
+    
