@@ -58,6 +58,7 @@ define(['jquery.xml2json'], function(xml2json) {
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         item = _ref[_i];
         description = item.description;
+        item.review = this.getMovieReview(JSON.stringify(item.title));
         image_url = description.match(/src="(.+?[\.jpg])"/)[1];
         item.image_url = image_url.replace('small', 'ghd');
       }
@@ -77,6 +78,7 @@ define(['jquery.xml2json'], function(xml2json) {
           page_limit: 1
         },
         success: function(res) {
+          console.log(res.movies[0]);
           return res.movies[0].ratings.audience_score;
         }
       });

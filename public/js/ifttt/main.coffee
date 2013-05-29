@@ -38,7 +38,7 @@ define ['jquery.xml2json'],
             for item in @movies
                 description = item.description
                 # Removing due to Cross-domain issues.
-                # image.review = @getMovieReview JSON.stringify(item.title)
+                item.review = @getMovieReview JSON.stringify(item.title)
                 image_url = description.match(/src="(.+?[\.jpg])"/)[1]
                 # Give me the big images :)
                 item.image_url = image_url.replace 'small', 'ghd'
@@ -55,6 +55,7 @@ define ['jquery.xml2json'],
                     q: title
                     page_limit: 1
                 success: (res) =>
+                    console.log res.movies[0]
                     return res.movies[0].ratings.audience_score
 
         showMovies: ->
