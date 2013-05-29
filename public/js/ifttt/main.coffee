@@ -38,7 +38,7 @@ define ['jquery.xml2json'],
             for item in @movies
                 description = item.description
                 # Removing due to Cross-domain issues.
-                item.review = @getMovieReview JSON.stringify(item.title)
+                # item.review = @getMovieReview JSON.stringify(item.title)
                 image_url = description.match(/src="(.+?[\.jpg])"/)[1]
                 # Give me the big images :)
                 item.image_url = image_url.replace 'small', 'ghd'
