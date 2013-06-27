@@ -48,9 +48,9 @@ app.get('/', function (req, res) {
   { title : 'Home' }
   )
 });
-app.get('/ifttt', function (req, res) {
-  res.render('ifttt/index',
-  { title: 'IFTTT:project' }
+app.get('/design', function (req, res) {
+  res.render('designer',
+  { title: 'Jarod Reyes: Design' }
   )
 });
 

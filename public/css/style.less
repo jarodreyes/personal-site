@@ -100,6 +100,7 @@
 @turquoise: #4A7D82;
 @fontHeader: 'Fjalla One', sans-serif;
 @fontScript: 'Piedra', cursive;
+@pink: #eb1b79;
 
 // Global Styles
 body * {
@@ -155,6 +156,9 @@ a.big-link {
 }
 .turq {
     color:@turquoise;
+}
+.pink {
+    color:@pink;
 }
 .pull-right {
     float:right;
@@ -349,7 +353,7 @@ a.big-link {
 
 
 // GRID STUFF
-.grid.page1, .grid.page2 {
+.grid.page1, .grid.page2, .grid.design {
     margin-top:60px;
 }
 .grid.page3 {
@@ -575,4 +579,14 @@ hr.thin {
     vertical-align: top;
   }
   small { color:@grayLight; }
+}
+
+#design {
+  img {
+    max-width:100%;
+    position: relative;
+    &:nth-child(even) {
+      margin-top:20px;
+    }
+  }
 }
