@@ -180,3 +180,10 @@ hr.thin{margin:2px auto;border:0;border-top:1px solid #e5e5e5;border-bottom:1px 
 .footer .seperator{margin:0px 21px;height:20px;width:2px;background-color:#a6a6a6;border-left:1px solid #5a5a5a;display:inline-block;vertical-align:top;}
 .footer small{color:#eceaeb;}
 #design img{max-width:100%;position:relative;}#design img:nth-child(even){margin-top:20px;}
+.player{display:block;background:#333;margin:10px;padding:8px 20px;cursor:pointer;border:2px solid white;}.player:hover{border:2px solid green;}
+.player .score{float:right;}
+.player .answers{display:none;-webkit-transition:all linear 0.3s;-moz-transition:all linear 0.3s;-ms-transition:all linear 0.3s;-o-transition:all linear 0.3s;transition:all linear 0.3s;height:0px;}.player .answers span{margin:0px 10px;}
+.player .answers.slide{display:block;height:auto;}
+.player .score,.player .name{display:inline-block;font-size:32px;}
+.player:nth-child(1){background:#F0D71D;}
+.player:nth-child(2){background:#998C29;color:white;}

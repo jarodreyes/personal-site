@@ -590,3 +590,46 @@ hr.thin {
     }
   }
 }
+
+// OSCARS Addition
+
+.player {
+  display:block;
+  background:#333;
+  margin:10px;
+  padding:8px 20px;
+  cursor: pointer;
+  border:2px solid white;
+  &:hover {
+    border:2px solid green;
+  }
+  .score {
+    float:right;
+  }
+  .name {
+    
+  }
+  .answers {
+    display:none;
+    .transition(all linear 0.3s);
+    height:0px;
+    span {
+      margin:0px 10px;
+    }
+  }
+  .answers.slide {
+    display:block;
+    height:auto;
+  }
+  .score, .name {
+    display:inline-block;
+    font-size:32px;
+  }
+}
+.player:nth-child(1) {
+  background:#F0D71D;
+}
+.player:nth-child(2) {
+  background:#998C29;
+  color:white;
+}

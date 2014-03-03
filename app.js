@@ -53,5 +53,10 @@ app.get('/design', function (req, res) {
   { title: 'Jarod Reyes: Design' }
   )
 });
+app.get('/oscars', function (req, res) {
+  res.render('oscars',
+  { title: 'Oscars Leaderboard' }
+  )
+});
 
 app.listen(3000)

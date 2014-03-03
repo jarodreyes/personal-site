@@ -1,0 +1,13 @@
+extend layout
+
+block content
+  .leaderboard
+  script(type="text/template", id="player")
+    .name <%= name %>
+    .score <%= score %>
+    .answers <%= correct %>
+  script(type="text/template", id="leaderboard")
+    h2 Leaderboard
+    .scores
+
+  script(src="/js/oscars.js")
